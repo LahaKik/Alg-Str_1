@@ -4,7 +4,7 @@ using System.Collections;
 namespace Alg_Str_1
 {
 
-    public class MList<T>
+    public class MList<T> : ISortObject<T> where T : IComparable
     {
        protected class Node<P>
         {
@@ -20,6 +20,7 @@ namespace Alg_Str_1
         private Node<T>? head;
         private Node<T>? tail;
         private int count;
+
         public int Count
         {
             get { return count; }
@@ -42,19 +43,37 @@ namespace Alg_Str_1
             if(head == null)
                 return default;
             
-            Node<T>? curr = head;
             bool OutOfRange = false;
-            for (int i = 0; i < index; i++)
+            if(index < Count/2)
             {
-                if (curr == null)
+                Node<T>? curr = head;
+                for (int i = 0; i < index; i++)
                 {
-                    OutOfRange = true;
-                    break;
+                    if (curr == null)
+                    {
+                        OutOfRange = true;
+                        break;
+                    }
+                    curr = curr.Next;
                 }
-                curr = curr.Next;
+                if (!OutOfRange)
+                    return curr!.Data;
             }
-            if (!OutOfRange)
-                return curr.Data;
+            else
+            {
+                Node<T>? curr = tail;
+                for (int i = 0; i < Count - 1 - index; i++)
+                {
+                    if(curr == null)
+                    {
+                        OutOfRange = true;
+                        break;
+                    }
+                    curr = curr.Prev;
+                }
+                if (!OutOfRange)
+                    return curr!.Data;
+            }
             return default;
         }
 
@@ -63,14 +82,14 @@ namespace Alg_Str_1
             return GetData(0);
         }
 
-        public void Add(T item)
+        public void AddLast(T item)
         {
             Node<T> node = new Node<T>(item);
             if (head == null)
                 head = node;
             else
             {
-                tail.Next = node;
+                tail!.Next = node;
                 node.Prev = tail;
             }
             tail = node;
@@ -99,8 +118,8 @@ namespace Alg_Str_1
 
             if(head != null && Count > 1)
             {
-                tail = tail.Prev;
-                tail.Next = null;
+                tail = tail!.Prev;
+                tail!.Next = null;
             }
             else
             {
@@ -142,13 +161,13 @@ namespace Alg_Str_1
                 }
                 else if(curr == head)
                 {
-                    head = curr.Next;
-                    curr.Next.Prev = null;
+                    head = curr!.Next;
+                    curr.Next!.Prev = null;
                 }
                 else
                 {
-                    tail = curr.Prev;
-                    curr.Prev.Next = null;
+                    tail = curr!.Prev;
+                    curr.Prev!.Next = null;
                 }
                 Count--;
             }
@@ -173,11 +192,34 @@ namespace Alg_Str_1
             int i = 0;
             while (curr != null)
             {
-                list += "[" + i + "]" + " " + curr.Data.ToString() + " ";
+                list += "[" + i + "]" + " " + curr.Data!.ToString() + " ";
                 i++;
                 curr = curr.Next;
             }
             return list;
+        }
+
+        public void AddAt(int index, T data)
+        {
+            //...
+        }
+
+        public bool SwitchData(int index, T data)
+        {
+            //...
+            return true;
+        }
+
+        public T? this[int index]
+        {
+            get 
+            {
+                if (index < Count && index >= 0)
+                    return GetData(index)!;
+                else if (index >= -Count && index < 0)
+                    return GetData(Count + index);
+                return default;
+            }
         }
     }
 }

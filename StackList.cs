@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-
-namespace Alg_Str_1
+﻿namespace Alg_Str_1
 {
-    public class StackList<T> : MList<T>
+    public class StackList<T> : MList<T> where T : IComparable
     {
         private MList<T> mList;
 

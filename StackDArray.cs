@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Alg_Str_1
 {
-    public class StackDArray<T> : DynamicArray<T>
+    public class StackDArray<T> : DynamicArray<T> where T : IComparable
     {
         private DynamicArray<T> array;
 
@@ -41,9 +41,12 @@ namespace Alg_Str_1
             array.Clear();
         }
 
-        public T this[int index]
+        public new T? this[int index]
         {
-            get { return array[Count - 1 - index]; }
+            get 
+            { 
+                return array[Count - 1 - index]; 
+            }
         }
         public override string? ToString()
         {
@@ -53,6 +56,27 @@ namespace Alg_Str_1
                 result += "[" + i + "]" + " " + array[i].ToString() + " ";
             }
             return result;
+        }
+
+        public T? PopFirst()
+        {
+            T? data = array[0];
+            if (array.RemoveFirst())
+            {
+                Count--;
+                return data;
+            }
+            return default;
+        }        
+        public T? Pop(int index)
+        {
+            T? data = array[index];
+            if (array.RemoveAt(index))
+            {
+                Count--;
+                return data;
+            }
+            return default;
         }
     }
 }

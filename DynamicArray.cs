@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Alg_Str_1
 {
-    public class DynamicArray<T>
+    public class DynamicArray<T> : ISortObject<T> where T : IComparable
     {
         private T[] data;
         private int count;
@@ -51,9 +51,16 @@ namespace Alg_Str_1
             Count = right.Count;
         }
 
-        public T this[int index]
+        public T? this[int index]
         {
-            get { return data[index]; }
+            get 
+            {
+                if(index >= 0 && index < Count)
+                    return data[index]; 
+                else if(index < 0 && index >= -Count)
+                    return data[Count - index];
+                return default;
+            }
             protected set { data[index] = value; }
         }
 
@@ -75,9 +82,7 @@ namespace Alg_Str_1
                 RashirenieTerritorii(5);
             for (int i = Count-1; i > index; i--)
             {
-                T tmp = data[i];
-                data[i] = data[i+1];
-                data[i+1] = tmp;
+                (data[i+1], data[i]) = (data[i], data[i+1]);
             }
             T temp = data[index];
             data[index] = value;
@@ -148,6 +153,12 @@ namespace Alg_Str_1
                 rez += "[" + i + "]" + " " + data[i].ToString() + " ";
             }
             return rez;
+        }
+
+        public bool SwitchData(int index, T data)
+        {
+            this.data[index] = data;
+            return true;
         }
     }
 }
