@@ -8,8 +8,8 @@ namespace Alg_Str_1
 {
     public class DynamicArray<T> : ISortObject<T> where T : IComparable
     {
-        private T[] data;
-        private int count;
+        protected T[] data;
+        protected int count;
         private int tArray;
         public int Count
         {
@@ -25,6 +25,13 @@ namespace Alg_Str_1
         public DynamicArray()
         {
             tArray = 3;
+            data = new T[tArray];
+            Count = 0;
+        }
+
+        public DynamicArray(int Count)
+        {
+            tArray = Count;
             data = new T[tArray];
             Count = 0;
         }
@@ -78,7 +85,7 @@ namespace Alg_Str_1
                 return;
             }
 
-            if (data.Length == tArray)
+            if (Count + 1 == tArray)
                 RashirenieTerritorii(5);
             for (int i = Count-1; i > index; i--)
             {
@@ -109,7 +116,7 @@ namespace Alg_Str_1
             if (index >= Count)
                 return false;
 
-            for (int i = index; i < Count-1; i++)
+            for (int i = index; i < Count; i++)
             {
                 data[i] = data[i + 1];
             }

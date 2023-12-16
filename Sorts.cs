@@ -36,7 +36,7 @@ namespace Alg_Str_1
 
             for (int i = start; i <= finish; i++)
             {
-                for (int j = i; j > start && mass[j - 1].CompareTo(mass[j]) > 0; j--)
+                for (int j = i; j > start && mass[j - 1]!.CompareTo(mass[j]) > 0; j--)
                 {
                     Swap(ref mass, j - 1, j);
                 }
